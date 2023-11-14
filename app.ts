@@ -1,33 +1,35 @@
-type Combinable = number | string;
-type ComversionDescriptor = "as-number" | "as-text";
-
-function combine(
-  input1: Combinable,
-  input2: Combinable,
-  resultConversion: ComversionDescriptor
-) {
-  let result;
-  if (
-    (typeof input1 === "number" && typeof input2 === "number") ||
-    resultConversion === "as-number"
-  ) {
-    result = +input1 + +input2;
-  } else {
-    result = input1.toString() + input2.toString();
-  }
-  return result;
-  // if (resultConversion === "as-number") {
-  //   return +result;
-  // } else {
-  //   return result.toString();
-  // }
+function add(n1: number, n2: number) {
+  return n1 + n2;
 }
 
-const combineAges = combine(20, 26, "as-number");
-console.log(combineAges);
+function printResult(num: number) {
+  console.log("Result: " + num);
+}
 
-const combinedStringAges = combine("20", "26", "as-number");
-console.log(combinedStringAges);
+function addAndHandle(n1: number, n2: number, cb: (num: number) => void) {
+  const result = n1 + n2;
+  cb(result);
+}
 
-const combinedNames = combine("foo", "bar", "as-text");
-console.log(combinedNames);
+// addAndHandle(10, 20, (result) => {
+//   console.log(result);
+// });
+
+let combineValues: (a: number, b: number) => number;
+
+// combineValues = add;
+// combineValues = pringResult
+// combineValues = 5;
+
+// console.log(combineValues(8, 8));
+
+// printResult(add(5, 12));
+
+function sendRequest(data: string, cb: (respons: any) => void) {
+  return cb({ data: "Hi there!" });
+}
+
+sendRequest("Send this!", (response) => {
+  console.log(response);
+  return true;
+});
