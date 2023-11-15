@@ -2,15 +2,21 @@ const add = (a: number, b: number = 1) => {
   return a + b;
 };
 
-const printOutput: (output: string | number) => void = (output) =>
+const printOutput: (output: string | number | string[]) => void = (output) =>
   console.log(output);
 
-printOutput(add(2, 5));
+const hobbies = ["Sports", "Cooking"];
+const activeHobbies = ["Hiking"];
 
-const button = document.querySelector("button");
+activeHobbies.push(...hobbies);
 
-if (button) {
-  button.addEventListener("click", (event) => {
-    console.log(event);
-  });
-}
+const person = {
+  name: "Max",
+  age: 30,
+};
+
+const copiedPerson = {
+  ...person,
+};
+
+console.log(copiedPerson);
