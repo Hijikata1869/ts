@@ -1,35 +1,37 @@
-// const add = (a: number, b: number = 1) => {
-//   return a + b;
-// };
+class Department {
+  // アクセス修飾子はpublicとprivateの２つがあり、publicはデフォルトなので基本的に記載する必要はない。publicの場合クラスの外からアクセスすることができる。
+  // 学習のためわざと書いている。
+  public name: string;
+  private employees: string[] = [];
 
-// const printOutput: (output: string | number | string[]) => void = (output) =>
-//   console.log(output);
+  constructor(n: string) {
+    this.name = n;
+  }
 
-const hobbies = ["Sports", "Cooking"];
-const activeHobbies = ["Hiking"];
+  // この引数thisに, Departmentという型定義が意味することは、describe()が実行されたとき、thisは常にDepartmentクラスをベースにしたインスタンスを参照する必要があるということ
+  describe(this: Department) {
+    console.log("Department: " + this.name);
+  }
 
-activeHobbies.push(...hobbies);
+  addEmployee(employee: string) {
+    this.employees.push(employee);
+  }
 
-const person = {
-  firstName: "Max",
-  age: 30,
-};
+  printEmployeeInformation() {
+    console.log(
+      `この部署には${this.employees.length}名の従業員が在籍しています。`
+    );
+    console.log(this.employees);
+  }
+}
 
-const copiedPerson = {
-  ...person,
-};
+const accounting = new Department("Accounting");
 
-const add = (...numbers: number[]) => {
-  return numbers.reduce((curResult, curValue) => {
-    return curResult + curValue;
-  }, 0);
-};
+accounting.addEmployee("Max");
+accounting.addEmployee("Manu");
 
-const addedNumbers = add(5, 2, 3);
-console.log(addedNumbers);
+accounting.printEmployeeInformation();
 
-const [hobby1, hobby2] = hobbies;
+// const accountingCopy = { name: "DUMMY", describe: accounting.describe };
 
-const { firstName: userName, age } = person;
-
-console.log(userName, age, person);
+// accountingCopy.describe();
