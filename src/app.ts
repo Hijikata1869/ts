@@ -1,16 +1,13 @@
 class Department {
-  // アクセス修飾子はpublicとprivateの２つがあり、publicはデフォルトなので基本的に記載する必要はない。publicの場合クラスの外からアクセスすることができる。
-  // 学習のためわざと書いている。
-  public name: string;
+  // private readonly id: string;
+  // name: string;
   private employees: string[] = [];
 
-  constructor(n: string) {
-    this.name = n;
-  }
+  // readonly修飾子をつけると、プロパティを変更するコードをエラーにするので、一度初期値が設定された後は変わらないことを確実にすることができる。
+  constructor(private readonly id: string, public name: string) {}
 
-  // この引数thisに, Departmentという型定義が意味することは、describe()が実行されたとき、thisは常にDepartmentクラスをベースにしたインスタンスを参照する必要があるということ
   describe(this: Department) {
-    console.log("Department: " + this.name);
+    console.log(`Department (${this.id}): ${this.name}`);
   }
 
   addEmployee(employee: string) {
@@ -18,19 +15,18 @@ class Department {
   }
 
   printEmployeeInformation() {
-    console.log(
-      `この部署には${this.employees.length}名の従業員が在籍しています。`
-    );
+    console.log(this.employees.length);
     console.log(this.employees);
   }
 }
 
-const accounting = new Department("Accounting");
+const accounting = new Department("d1", "NEW NAME");
 
 accounting.addEmployee("Max");
 accounting.addEmployee("Manu");
 
 accounting.printEmployeeInformation();
+accounting.describe();
 
 // const accountingCopy = { name: "DUMMY", describe: accounting.describe };
 
