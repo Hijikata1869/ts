@@ -3,7 +3,6 @@ class Department {
   // name: string;
   private employees: string[] = [];
 
-  // readonly修飾子をつけると、プロパティを変更するコードをエラーにするので、一度初期値が設定された後は変わらないことを確実にすることができる。
   constructor(private readonly id: string, public name: string) {}
 
   describe(this: Department) {
@@ -20,13 +19,39 @@ class Department {
   }
 }
 
-const accounting = new Department("d1", "NEW NAME");
+class ITDepartment extends Department {
+  admins: string[];
+  constructor(id: string, admins: string[]) {
+    super(id, "IT");
+    this.admins = admins;
+  }
+}
 
-accounting.addEmployee("Max");
-accounting.addEmployee("Manu");
+class AccountingDepartment extends Department {
+  constructor(id: string, private reports: string[]) {
+    super(id, "IT");
+  }
 
-accounting.printEmployeeInformation();
-accounting.describe();
+  addReport(text: string) {
+    this.reports.push(text);
+  }
+
+  printReports() {
+    console.log(this.reports);
+  }
+}
+
+const accounting = new AccountingDepartment("d2", []);
+
+const it = new ITDepartment("d1", ["Max"]);
+
+it.addEmployee("Max");
+it.addEmployee("Manu");
+
+it.printEmployeeInformation();
+it.describe();
+
+console.log(it);
 
 // const accountingCopy = { name: "DUMMY", describe: accounting.describe };
 
