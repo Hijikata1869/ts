@@ -1,23 +1,37 @@
 class Practice {
-  constructor(private readonly id: string, public name: string) {}
+  constructor(
+    public id: string,
+    public name: string,
+    protected members: string[]
+  ) {}
 
-  showInformation(this: Practice) {
-    console.log(`id: ${this.id}, name: ${this.name}`);
+  addMember(newMember: string) {
+    this.members.push(newMember);
+  }
+
+  showMembers() {
+    console.log(this.members);
   }
 }
 
 class SecondPractice extends Practice {
-  constructor(id: string, private admins: string[]) {
-    super(id, "Second");
+  constructor(id: string) {
+    super(id, "Second", []);
   }
 
-  addAdmins(text: string) {
-    this.admins.push(text);
+  addMember(newMember: string) {
+    if (newMember === "Foo") {
+      return;
+    }
+    this.members.push(newMember);
   }
 }
 
-const secondPractice = new SecondPractice("Second", []);
+const secondPractice = new SecondPractice("Second");
+secondPractice.addMember("Max");
+secondPractice.addMember("Foo");
 
+secondPractice.showMembers();
 // console.log(secondPractice);
 
 // secondPractice.showInformation();
