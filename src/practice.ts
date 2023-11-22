@@ -1,37 +1,21 @@
 class Practice {
-  constructor(
-    public id: string,
-    public name: string,
-    protected members: string[]
-  ) {}
+  constructor(private members: string[]) {}
+
+  get mostRecentPracticeMember() {
+    return this.members[0];
+  }
+
+  set mostRecentPracticeMember(newMember: string) {
+    this.members.push(newMember);
+  }
 
   addMember(newMember: string) {
     this.members.push(newMember);
   }
-
-  showMembers() {
-    console.log(this.members);
-  }
 }
 
-class SecondPractice extends Practice {
-  constructor(id: string) {
-    super(id, "Second", []);
-  }
+const practice = new Practice([]);
 
-  addMember(newMember: string) {
-    if (newMember === "Foo") {
-      return;
-    }
-    this.members.push(newMember);
-  }
-}
+practice.mostRecentPracticeMember = "Max";
 
-const secondPractice = new SecondPractice("Second");
-secondPractice.addMember("Max");
-secondPractice.addMember("Foo");
-
-secondPractice.showMembers();
-// console.log(secondPractice);
-
-// secondPractice.showInformation();
+console.log(practice.mostRecentPracticeMember);
