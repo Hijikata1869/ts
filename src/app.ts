@@ -20,8 +20,7 @@ class Department {
 }
 
 class ITDepartment extends Department {
-  admins: string[];
-  constructor(id: string, admins: string[]) {
+  constructor(id: string, public admins: string[]) {
     super(id, "IT");
     this.admins = admins;
   }
@@ -29,7 +28,7 @@ class ITDepartment extends Department {
 
 class AccountingDepartment extends Department {
   constructor(id: string, private reports: string[]) {
-    super(id, "IT");
+    super(id, "Accounting");
   }
 
   addReport(text: string) {
@@ -43,16 +42,5 @@ class AccountingDepartment extends Department {
 
 const accounting = new AccountingDepartment("d2", []);
 
-const it = new ITDepartment("d1", ["Max"]);
-
-it.addEmployee("Max");
-it.addEmployee("Manu");
-
-it.printEmployeeInformation();
-it.describe();
-
-console.log(it);
-
-// const accountingCopy = { name: "DUMMY", describe: accounting.describe };
-
-// accountingCopy.describe();
+accounting.addReport("Something");
+accounting.printReports();

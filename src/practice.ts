@@ -6,6 +6,18 @@ class Practice {
   }
 }
 
-const practice = new Practice("1", "Max");
+class SecondPractice extends Practice {
+  constructor(id: string, private admins: string[]) {
+    super(id, "Second");
+  }
 
-// practice.showInformation();
+  addAdmins(text: string) {
+    this.admins.push(text);
+  }
+}
+
+const secondPractice = new SecondPractice("Second", []);
+
+// console.log(secondPractice);
+
+// secondPractice.showInformation();
