@@ -18,4 +18,4 @@ const practice = new Practice([]);
 
 practice.mostRecentPracticeMember = "Max";
 
-console.log(practice.mostRecentPracticeMember);
+// console.log(practice.mostRecentPracticeMember);
