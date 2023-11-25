@@ -86,10 +86,10 @@ class AccountingDepartment extends Department {
   }
 }
 
-const it = new ITDepartment("d1", []);
+// const it = new ITDepartment("d1", []);
 
 // const accounting = new AccountingDepartment("d2", []);
-const accounting = AccountingDepartment.getInstance();
-const accounting2 = AccountingDepartment.getInstance();
+// const accounting = AccountingDepartment.getInstance();
+// const accounting2 = AccountingDepartment.getInstance();
 
-console.log(accounting, accounting2);
+// console.log(accounting, accounting2);
