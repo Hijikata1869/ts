@@ -21,6 +21,10 @@ type Numeric = number | boolean;
 
 type Universal = Combinable & Numeric;
 
+function add(a: number, b: number): number;
+function add(a: string, b: string): string;
+function add(a: string, b: number): string;
+function add(a: number, b: string): string;
 function add(a: Combinable, b: Combinable) {
   if (typeof a === "string" || typeof b === "string") {
     return a.toString() + b.toString();
@@ -28,87 +32,90 @@ function add(a: Combinable, b: Combinable) {
   return a + b;
 }
 
-type UnknownEmployee = Employee | Admin;
+const result = add("Hello", " TypeScript");
+console.log(result.split(" "));
 
-function printEmployeeInformation(emp: UnknownEmployee) {
-  console.log(emp.name);
-  if ("privileges" in emp) {
-    console.log("privileges: " + emp.privileges);
-  }
-  if ("startDate" in emp) {
-    console.log("StartDate: " + emp.startDate);
-  }
-}
+// type UnknownEmployee = Employee | Admin;
 
-class Car {
-  drive() {
-    console.log("運転中...");
-  }
-}
+// function printEmployeeInformation(emp: UnknownEmployee) {
+//   console.log(emp.name);
+//   if ("privileges" in emp) {
+//     console.log("privileges: " + emp.privileges);
+//   }
+//   if ("startDate" in emp) {
+//     console.log("StartDate: " + emp.startDate);
+//   }
+// }
 
-class Truck {
-  drive() {
-    console.log("トラックを運転中...");
-  }
+// class Car {
+//   drive() {
+//     console.log("運転中...");
+//   }
+// }
 
-  loadCargo(amount: number) {
-    console.log("荷物を載せています..." + amount);
-  }
-}
+// class Truck {
+//   drive() {
+//     console.log("トラックを運転中...");
+//   }
 
-type Vehicle = Car | Truck;
+//   loadCargo(amount: number) {
+//     console.log("荷物を載せています..." + amount);
+//   }
+// }
 
-const v1 = new Car();
-const v2 = new Truck();
+// type Vehicle = Car | Truck;
 
-function useVehicle(vehicle: Vehicle) {
-  vehicle.drive();
-  if (vehicle instanceof Truck) {
-    vehicle.loadCargo(1000);
-  }
-}
+// const v1 = new Car();
+// const v2 = new Truck();
 
-// useVehicle(v1);
-// useVehicle(v2);
+// function useVehicle(vehicle: Vehicle) {
+//   vehicle.drive();
+//   if (vehicle instanceof Truck) {
+//     vehicle.loadCargo(1000);
+//   }
+// }
 
-interface Bird {
-  type: "bird";
-  flyingSpeed: number;
-}
+// // useVehicle(v1);
+// // useVehicle(v2);
 
-interface Horse {
-  type: "horse";
-  runningSpeed: number;
-}
+// interface Bird {
+//   type: "bird";
+//   flyingSpeed: number;
+// }
 
-type Animal = Bird | Horse;
+// interface Horse {
+//   type: "horse";
+//   runningSpeed: number;
+// }
 
-function moveAnimal(animal: Animal) {
-  let speed;
-  switch (animal.type) {
-    case "bird":
-      speed = animal.flyingSpeed;
-      break;
-    case "horse":
-      speed = animal.runningSpeed;
-  }
-  console.log("移動速度: " + speed);
-}
+// type Animal = Bird | Horse;
 
-// moveAnimal({ type: "bird", flyingSpeed: 10 });
+// function moveAnimal(animal: Animal) {
+//   let speed;
+//   switch (animal.type) {
+//     case "bird":
+//       speed = animal.flyingSpeed;
+//       break;
+//     case "horse":
+//       speed = animal.runningSpeed;
+//   }
+//   console.log("移動速度: " + speed);
+// }
 
-// const userInputElement = <HTMLInputElement>document.getElementById("user-input")!;
-const userInputElement = document.getElementById("user-input");
+// // moveAnimal({ type: "bird", flyingSpeed: 10 });
 
-if (userInputElement) {
-  (userInputElement as HTMLInputElement).value = "こんにちは";
-}
+// // const userInputElement = <HTMLInputElement>document.getElementById("user-input")!;
+// const userInputElement = document.getElementById("user-input");
 
-interface ErrorContainer {
-  [prop: string]: string;
-}
+// if (userInputElement) {
+//   (userInputElement as HTMLInputElement).value = "こんにちは";
+// }
 
-const errorBag: ErrorContainer = {
-  email: "正しいメールアドレスではありません",
-  username: "ユーザー名に記号を含めることはできません。",
-};
+// interface ErrorContainer {
+//   [prop: string]: string;
+// }
+
+// const errorBag: ErrorContainer = {
+//   email: "正しいメールアドレスではありません",
+//   username: "ユーザー名に記号を含めることはできません。",
+// };
