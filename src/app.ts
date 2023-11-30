@@ -45,6 +45,14 @@ const fetchedUserData = {
 
 console.log(fetchedUserData?.job?.title);
 
+const userEmptyInput = "";
+const nullInput = null;
+
+const emptyData = userEmptyInput ?? "DEFAULT";
+const nullData = nullInput ?? "DEFAULT";
+
+console.log(`emptyData: ${emptyData}, nullData: ${nullData}`);
+
 // type UnknownEmployee = Employee | Admin;
 
 // function printEmployeeInformation(emp: UnknownEmployee) {
