@@ -1,3 +1,18 @@
+// autobind decorator
+function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  const adjDescriptor: PropertyDescriptor = {
+    configurable: true, // プロパティの変更を可能にする
+    // オリジナルの関数にアクセスしようとしたときに実行されるゲッター
+    get() {
+      const boundFn = originalMethod.bind(this);
+      return boundFn;
+    },
+  };
+  return adjDescriptor;
+}
+
+// ProjectInput Class
 class ProjectInput {
   templateElement: HTMLTemplateElement;
   hostElement: HTMLDivElement;
@@ -35,14 +50,18 @@ class ProjectInput {
     this.attach();
   }
 
+  @autobind
   private submitHandler(event: Event) {
     event.preventDefault();
     console.log(this.titleInputElement.value); // configureメソッドのthis.submitHandlerにbindメソッドでthisを渡さないとこのthisはこのクラスのオブジェクトを参照せず、イベントの対象となったformを参照してしまう。formにはtitleInputElementは存在しないためundefinedとなりエラーになってしまう。
+    // autobindデコレータを追加したことにより、メソッド内に記述する必要がなくなった
   }
 
   private configure() {
     // 「プロジェクト追加」ボタンが押されたときのイベントリスナー。bindメソッドは関数が実行されたときにthisが参照すべきオブジェクトを渡す。このthisを渡すのが意味するところは、submitHandlerのメソッドの内側ではconfigureメソッドと同じコンテキストでthisを参照するということ。configureメソッドはconstructorの中から呼び出されているため、このクラスのオブジェクトを参照する。
-    this.element.addEventListener("submit", this.submitHandler.bind(this));
+    // autobindデコレータを追加したことにより、メソッド内に記述する必要がなくなった
+    // this.element.addEventListener("submit", this.submitHandler.bind(this));
+    this.element.addEventListener("submit", this.submitHandler);
   }
 
   private attach() {
@@ -51,3 +70,4 @@ class ProjectInput {
 }
 
 const prjInput = new ProjectInput();
+console.log(prjInput);
