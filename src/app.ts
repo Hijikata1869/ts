@@ -60,7 +60,8 @@ class ProjectInput {
   private configure() {
     // 「プロジェクト追加」ボタンが押されたときのイベントリスナー。bindメソッドは関数が実行されたときにthisが参照すべきオブジェクトを渡す。このthisを渡すのが意味するところは、submitHandlerのメソッドの内側ではconfigureメソッドと同じコンテキストでthisを参照するということ。configureメソッドはconstructorの中から呼び出されているため、このクラスのオブジェクトを参照する。
     // autobindデコレータを追加したことにより、メソッド内に記述する必要がなくなった
-    // this.element.addEventListener("submit", this.submitHandler.bind(this));
+    // 元のメソッド === this.element.addEventListener("submit", this.submitHandler.bind(this));
+    // autobindデコレータ追加後の記述↓
     this.element.addEventListener("submit", this.submitHandler);
   }
 
