@@ -1,9 +1,52 @@
+// Validation
+interface Validatable {
+  value: string | number;
+  required?: boolean;
+  minLength?: number;
+  maxLength?: number;
+  min?: number;
+  max?: number;
+}
+
+function validate(validatableInput: Validatable) {
+  let isValid = true;
+  if (validatableInput.required) {
+    isValid = isValid && validatableInput.value.toString().trim().length !== 0;
+  }
+  if (
+    validatableInput.minLength != null &&
+    typeof validatableInput.value === "string"
+  ) {
+    isValid =
+      isValid && validatableInput.value.length >= validatableInput.minLength;
+  }
+  if (
+    validatableInput.maxLength != null &&
+    typeof validatableInput.value === "string"
+  ) {
+    isValid =
+      isValid && validatableInput.value.length <= validatableInput.maxLength;
+  }
+  if (
+    validatableInput.min != null &&
+    typeof validatableInput.value === "number"
+  ) {
+    isValid = isValid && validatableInput.value >= validatableInput.min;
+  }
+  if (
+    validatableInput.max != null &&
+    typeof validatableInput.value === "number"
+  ) {
+    isValid = isValid && validatableInput.value <= validatableInput.max;
+  }
+  return isValid;
+}
+
 // autobind decorator
 function autobind(_: any, _2: string, descriptor: PropertyDescriptor) {
   const originalMethod = descriptor.value;
   const adjDescriptor: PropertyDescriptor = {
-    configurable: true, // プロパティの変更を可能にする
-    // オリジナルの関数にアクセスしようとしたときに実行されるゲッター
+    configurable: true,
     get() {
       const boundFn = originalMethod.bind(this);
       return boundFn;
@@ -50,18 +93,58 @@ class ProjectInput {
     this.attach();
   }
 
+  private gatherUserInput(): [string, string, number] | void {
+    const enteredTitle = this.titleInputElement.value;
+    const enteredDescription = this.descriptionInputElement.value;
+    const enteredManday = this.mandayInputElement.value;
+
+    const titleValidatable: Validatable = {
+      value: enteredTitle,
+      required: true,
+    };
+
+    const descriptionValidatable: Validatable = {
+      value: enteredDescription,
+      required: true,
+      minLength: 5,
+    };
+
+    const mandayValidatable: Validatable = {
+      value: +enteredManday,
+      required: true,
+      min: 1,
+      max: 1000,
+    };
+    if (
+      !validate(titleValidatable) ||
+      !validate(descriptionValidatable) ||
+      !validate(mandayValidatable)
+    ) {
+      alert("入力値が正しくありません。再度お試しください。");
+      return;
+    } else {
+      return [enteredTitle, enteredDescription, +enteredManday];
+    }
+  }
+
+  private clearInputs() {
+    this.titleInputElement.value = "";
+    this.descriptionInputElement.value = "";
+    this.mandayInputElement.value = "";
+  }
+
   @autobind
   private submitHandler(event: Event) {
     event.preventDefault();
-    console.log(this.titleInputElement.value); // configureメソッドのthis.submitHandlerにbindメソッドでthisを渡さないとこのthisはこのクラスのオブジェクトを参照せず、イベントの対象となったformを参照してしまう。formにはtitleInputElementは存在しないためundefinedとなりエラーになってしまう。
-    // autobindデコレータを追加したことにより、メソッド内に記述する必要がなくなった
+    const userInput = this.gatherUserInput();
+    if (Array.isArray(userInput)) {
+      const [title, desc, manday] = userInput;
+      console.log(title, desc, manday);
+      this.clearInputs();
+    }
   }
 
   private configure() {
-    // 「プロジェクト追加」ボタンが押されたときのイベントリスナー。bindメソッドは関数が実行されたときにthisが参照すべきオブジェクトを渡す。このthisを渡すのが意味するところは、submitHandlerのメソッドの内側ではconfigureメソッドと同じコンテキストでthisを参照するということ。configureメソッドはconstructorの中から呼び出されているため、このクラスのオブジェクトを参照する。
-    // autobindデコレータを追加したことにより、メソッド内に記述する必要がなくなった
-    // 元のメソッド === this.element.addEventListener("submit", this.submitHandler.bind(this));
-    // autobindデコレータ追加後の記述↓
     this.element.addEventListener("submit", this.submitHandler);
   }
 
@@ -71,4 +154,3 @@ class ProjectInput {
 }
 
 const prjInput = new ProjectInput();
-console.log(prjInput);
