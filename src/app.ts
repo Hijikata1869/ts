@@ -190,7 +190,8 @@ class ProjectItem
 
   @autobind
   dragStartHandler(event: DragEvent) {
-    console.log(event);
+    event.dataTransfer!.setData("text/plain", this.project.id);
+    event.dataTransfer!.effectAllowed = "move";
   }
 
   dragEndHandler(_: DragEvent) {
@@ -225,12 +226,18 @@ class ProjectList
   }
 
   @autobind
-  dragOverHandler(_: DragEvent) {
-    const listEl = this.element.querySelector("ul")!;
-    listEl.classList.add("droppable");
+  dragOverHandler(event: DragEvent) {
+    if (event.dataTransfer && event.dataTransfer.types[0] === "text/plain") {
+      // event.preventDefaultを追加することによって、javascriptではこのドラッグ&ドロップだけが許可されるという動作になる。なので、この後のドロップイベントはドラッグオーバーハンドラでpreventDefaultが呼び出された要素に対してだけトリガーされる。これは次のように考えることができる。デフォルトのjavascriptのドラッグ&ドロップのイベントはドロップを許可しない。原則的には禁止している。なので、このsectionのHTMl要素、ProjectListの上にドラッグオーバーされたときにはpreventDefautを呼び出して、ドロップを許可する必要がある。なのでドラッグオーバーハンドラでpreventDefaultを呼び出すと、ユーザーがドロップしたときに、ドロップハンドラが呼び出されるということになる。これをしない場合はドロップハンドラは呼び出されない。ドロップイベントが起きない。
+      event.preventDefault();
+      const listEl = this.element.querySelector("ul")!;
+      listEl.classList.add("droppable");
+    }
   }
 
-  dropHandler(_: DragEvent) {}
+  dropHandler(event: DragEvent) {
+    console.log(event.dataTransfer!.getData("text/plain"));
+  }
 
   @autobind
   dragLeaveHandler(_: DragEvent) {
